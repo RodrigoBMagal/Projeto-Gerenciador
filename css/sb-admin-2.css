@@ -7609,8 +7609,12 @@ button.bg-dark:focus {
   height: 50% !important;
 }
 
-.h-75 {
-  height: 75% !important;
+.h-60 {
+  height: 60% !important;
+}
+
+.h-83 {
+  height: 83% !important;
 }
 
 .h-100 {
@@ -9804,6 +9808,7 @@ a:focus {
 
 #wrapper #content-wrapper #content {
   flex: 1 0 auto;
+  height: 100%;
 }
 
 .container,

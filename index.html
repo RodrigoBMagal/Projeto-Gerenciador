@@ -16,7 +16,8 @@
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+         crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
 
@@ -452,7 +453,7 @@
                                             <h6 class="dropdown-header">
                                                 Tarefa
                                             </h6>
-                                            <form id="meuFormulario">
+                                            <form id="meuFormulario" onsubmit="submit()" method="options">
                                                 <input type="hidden" name="acao" value="salvar">
                                                 <div class="form-group text-center">
                                                     <label for="nome">Título</label>
@@ -476,9 +477,30 @@
                                                     <button id="botaoEnviar" type="submit"
                                                         class="btn btn-primary">Enviar</button>
                                                 </div>
+                                                
                                             </form>
                                         </div>
                                     </div>
+                                    <script>
+                                        function submit() {
+                                            event.preventDefault();
+                                    
+                                            var txt_nome = $('#nome').val();
+                                            var txt_data = $('#data').val();
+                                            var txt_descricao = $('#descricao').val();
+                                            var div = $('#resultado');
+                                    
+                                            var li_nome = $("<li></li>").append("<strong>Nome:</strong> " + txt_nome);
+                                            div.append(li_nome);
+                                    
+                                            var li_data = $("<li></li>").append("<strong>Data:</strong> " + txt_data);
+                                            div.append(li_data);
+                                    
+                                            var li_descricao = $("<li></li>").append("<strong>Descrição:</strong> " + txt_descricao);
+                                            div.append(li_descricao);
+                                        }
+                                    </script>
+                                    
                                 </div>
                             </div>
                         </div>

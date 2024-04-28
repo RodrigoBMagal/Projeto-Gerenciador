@@ -14,14 +14,14 @@ $(document).ready(function () {
             data: {
                 nome: txt_nome, data: txt_data, descricao: txt_descricao,
             },
-            dataType:'json',
-            success: function(response) {
+            dataType: 'json',
+            success: function (response) {
                 console.log("Requisição bem-sucedida:", response);
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error("Erro na requisição:", error);
+                alert("Erro na requisição: " + error);
             }
-
-            })
         });
     });
+});

@@ -1,23 +1,28 @@
-$(document.ready(function(){
+$(document).ready(function () {
+    $("#meuFormulario").submit(function (e) {
+        e.preventDefault();
 
-    $('#botaoEnviar').click(async function(){
-        dados = {
-            nome: $('nome').val(),
-            data: $('data').val(),
-            descricao: $('descrricao').val(),
-        }
+        var txt_nome = $('#nome').val();
+        var txt_data = $('#data').val();
+        var txt_descricao = $('#descricao').val();
 
-        $$.ajax({
-            url: 'http://localhost/projeto/index.php',
-            method: 'GET',
-            data: dados,
-            dataType: 'json',
-            success: function(response){
+        console.log(txt_nome, txt_data, txt_descricao);
 
+        $.ajax({
+            url: 'http://localhost/ProjetoWeb/processar_formulario.php',
+            type: 'POST',
+            data: {
+                nome: txt_nome, data: txt_data, descricao: txt_descricao,
             },
-            error: function(xhr, status, error){
-                console.error('Erro na requisição, ', xhr, status, error)
+            dataType:'json',
+                data: informacoes,
+            success: function(response) {
+                console.log("Requisição bem-sucedida:", response);
+            },
+            error: function(xhr, status, error) {
+                console.error("Erro na requisição:", error);
             }
-        })
-    })
-}))
+
+            })
+        });
+    });

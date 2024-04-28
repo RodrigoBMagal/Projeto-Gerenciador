@@ -9,7 +9,7 @@ $(document).ready(function () {
         console.log(txt_nome, txt_data, txt_descricao);
 
         $.ajax({
-            url: 'http://localhost/ProjetoWeb/processar_formulario.php',
+            url: 'http://localhost/Projeto Web/processar_formulario.php',
             type: 'POST',
             data: {
                 nome: txt_nome, data: txt_data, descricao: txt_descricao,

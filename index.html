@@ -328,12 +328,16 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" id="Tarefa1">
+                                                <ol id="Tarefa1">
+                                                    
+                                                </ol></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <ol id="descricao1"></ol>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            <ol id="data1"></ol>
                                         </div>
                                     </div>
                                 </div>
@@ -347,11 +351,11 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                <ol id="tarefa2"></ol></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><ol id="descricao2"></ol></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            <ol id="data2"></ol>
                                         </div>
                                     </div>
                                 </div>
@@ -364,23 +368,17 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1"><ol id="tarefa3"></ol>
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><ol id="descricao3"></ol></div>
                                                 </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                            <ol id="data3"></ol>
                                         </div>
                                     </div>
                                 </div>
@@ -394,11 +392,11 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                                <ol id="tarefa4"></ol></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><ol id="descricao4"></ol></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                            <ol id="data4"></ol>
                                         </div>
                                     </div>
                                 </div>
@@ -453,7 +451,7 @@
                                             <h6 class="dropdown-header">
                                                 Tarefa
                                             </h6>
-                                            <form id="meuFormulario" onsubmit="submit()" method="options">
+                                            <form id="meuFormulario" onsubmit=" return submit()">
                                                 <input type="hidden" name="acao" value="salvar">
                                                 <div class="form-group text-center">
                                                     <label for="nome">Título</label>
@@ -481,26 +479,7 @@
                                             </form>
                                         </div>
                                     </div>
-                                    <script>
-                                        function submit() {
-                                            event.preventDefault();
-                                    
-                                            var txt_nome = $('#nome').val();
-                                            var txt_data = $('#data').val();
-                                            var txt_descricao = $('#descricao').val();
-                                            var div = $('#resultado');
-                                    
-                                            var li_nome = $("<li></li>").append("<strong>Nome:</strong> " + txt_nome);
-                                            div.append(li_nome);
-                                    
-                                            var li_data = $("<li></li>").append("<strong>Data:</strong> " + txt_data);
-                                            div.append(li_data);
-                                    
-                                            var li_descricao = $("<li></li>").append("<strong>Descrição:</strong> " + txt_descricao);
-                                            div.append(li_descricao);
-                                        }
-                                    </script>
-                                    
+                                    <ul id="listaTarefa"></ul>
                                 </div>
                             </div>
                         </div>

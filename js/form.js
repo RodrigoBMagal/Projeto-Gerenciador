@@ -1,4 +1,4 @@
-const localStorageKey = "ListaTarefas"
+const localStorageKey = "ListaTarefas";
 $(document).ready(function () {
     $("#meuFormulario").submit(function (e) {
         
@@ -15,7 +15,7 @@ $(document).ready(function () {
         })
         localStorage.setItem(localStorageKey, JSON.stringify(valores))
         
-        mostrarTarefas()
+        mostrarTarefas();
         e.preventDefault();
 
         
@@ -37,21 +37,23 @@ $(document).ready(function () {
         });
     });
 });
+
 function mostrarTarefas(){
     let valores = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
     let lista = document.getElementById("listaTarefa")
     
     for (let i = 0; i < valores.length; i++){
-        lista.innerHTML += `<li>Nome da tarefa: ${valores[i]['nome']}
-         <br> Descrição da tarefa: ${valores[i]['descricao']}
-         <br> Data: ${valores[i]['data']}
-         <br><button id="concluida" onclick="apagaritem()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+        lista.innerHTML += `<li class="d-flex flex-column mw-100 mh-100 mb-5 h-25">
+        <div class="p-2">${valores[i]['nome']}</div>
+        <div class="p-2">${valores[i]['descricao']}</div>
+        <div class="p-2">${valores[i]['data']}</div>
+        <div class="p-2"><button id="concluida" onclick="apagaritem()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
          <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
        </svg>
-         </button></li>
+         </button></div></li>
          `
     }
-    console.log(lista.innerHTML)
+    //console.log(lista.innerHTML)
 }
 function apagaritem(data){
     let valores = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
@@ -59,6 +61,6 @@ function apagaritem(data){
     valores.splice(index, 1)
     localStorage.setItem(localStorageKey, JSON.stringify(valores))
     window.location.reload()
-    mostrarTarefas()
+    mostrarTarefas();
 }
-mostrarTarefas()
+mostrarTarefas();

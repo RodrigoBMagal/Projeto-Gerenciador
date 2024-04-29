@@ -33,4 +33,3 @@ try {
 
 // Retorna a resposta em JSON
 echo json_encode($response);
-?>

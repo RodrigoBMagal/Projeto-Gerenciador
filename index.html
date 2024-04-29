@@ -9,15 +9,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Brain Storm</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-         crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
 
@@ -328,10 +328,12 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" id="Tarefa1">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1"
+                                                id="Tarefa1">
                                                 <ol id="Tarefa1">
-                                                    
-                                                </ol></div>
+
+                                                </ol>
+                                            </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                 <ol id="descricao1"></ol>
                                             </div>
@@ -351,8 +353,11 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                <ol id="tarefa2"></ol></div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><ol id="descricao2"></ol></div>
+                                                <ol id="tarefa2"></ol>
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <ol id="descricao2"></ol>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <ol id="data2"></ol>
@@ -368,13 +373,16 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1"><ol id="tarefa3"></ol>
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                <ol id="tarefa3"></ol>
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><ol id="descricao3"></ol></div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                                                        <ol id="descricao3"></ol>
+                                                    </div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -392,8 +400,11 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                <ol id="tarefa4"></ol></div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><ol id="descricao4"></ol></div>
+                                                <ol id="tarefa4"></ol>
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <ol id="descricao4"></ol>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <ol id="data4"></ol>
@@ -415,23 +426,6 @@
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Projeto</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
                                     <div class="nav-item dropdown no-arrow mx-1 w-25">
                                         <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -475,11 +469,28 @@
                                                     <button id="botaoEnviar" type="submit"
                                                         class="btn btn-primary">Enviar</button>
                                                 </div>
-                                                
+
                                             </form>
                                         </div>
                                     </div>
-                                    <ul id="listaTarefa"></ul>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <button id="pegar-tarefas" class="dropdown-item">Obter Tarefas</button>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <ul id="listaTarefa" class="row"></ul>
                                 </div>
                             </div>
                         </div>

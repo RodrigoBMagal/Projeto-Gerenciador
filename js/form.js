@@ -8,7 +8,7 @@ $(document).ready(function () {
 
         // Verifica se o nome já existe no banco de dados
         $.ajax({
-            url: 'http://localhost/ProjetoWeb/verificar_nome.php',
+            url: 'http://localhost/ProjetoWeb/php/verificar_nome.php',
             type: 'POST',
             data: { nome: txt_nome },
             dataType: 'json',
@@ -41,7 +41,7 @@ function adicionarTarefa(txt_nome, txt_data, txt_descricao) {
 
     // Faz a requisição AJAX para adicionar no banco de dados
     $.ajax({
-        url: 'http://localhost/ProjetoWeb/processar_formulario.php',
+        url: 'http://localhost/ProjetoWeb/php/processar_formulario.php',
         type: 'POST',
         data: {
             nome: txt_nome, data: txt_data, descricao: txt_descricao,
@@ -60,7 +60,7 @@ function adicionarTarefa(txt_nome, txt_data, txt_descricao) {
 $("#pegar-tarefas").click(function (e) {
     e.preventDefault();
     $.ajax({
-        url: 'http://localhost/ProjetoWeb/obter_tarefas.php',
+        url: 'http://localhost/ProjetoWeb/php/obter_tarefas.php',
         type: 'GET',
         dataType: 'json',
         success: function (response) {
@@ -98,6 +98,22 @@ function apagaritem(nome){
     let index = valores.findIndex(x => x.nome === nome)
     valores.splice(index, 1)
     localStorage.setItem(localStorageKey, JSON.stringify(valores))
-    mostrarTarefas();
+
+    // Faz a requisição AJAX para excluir o item no banco de dados
+    $.ajax({
+        url: 'http://localhost/ProjetoWeb/php/apagar_item.php',
+        type: 'POST',
+        data: { nome: nome },
+        dataType: 'json',
+        success: function (response) {
+            console.log("Item excluído do banco de dados:", response);
+            mostrarTarefas(); // Atualiza a lista após a exclusão
+        },
+        error: function (xhr, status, error) {
+            console.error("Erro na requisição:", error);
+            alert("Erro na requisição: " + error);
+        }
+    });
 }
+
 mostrarTarefas();

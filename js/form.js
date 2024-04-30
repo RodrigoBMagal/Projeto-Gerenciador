@@ -81,7 +81,7 @@ function mostrarTarefas() {
     lista.innerHTML = ""; // Limpa a lista antes de mostrar as tarefas novamente
 
     for (let i = 0; i < valores.length; i++){
-        lista.innerHTML += `<li class="d-flex flex-column mw-100 mh-100 mb-5 h-25">
+        lista.innerHTML += `<li class="d-flex flex-column align-items-center border rounded mw-100 mh-100 m-2 h-25">
         <div class="p-2">${valores[i]['nome']}</div>
         <div class="p-2">${valores[i]['descricao']}</div>
         <div class="p-2">${valores[i]['data']}</div>

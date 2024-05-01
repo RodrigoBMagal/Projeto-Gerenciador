@@ -2368,7 +2368,10 @@ fieldset:disabled a.btn {
   background-color: #2e59d9;
   border-color: #2653d4;
 }
-
+.p-2 mw-100 mh-100{
+  display: flex;
+  flex-direction: row;
+}
 .btn-primary:focus, .btn-primary.focus {
   color: #fff;
   background-color: #2e59d9;

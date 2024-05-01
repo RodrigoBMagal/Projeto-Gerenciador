@@ -77,6 +77,19 @@ $("#pegar-tarefas").click(function (e) {
 function mostrarTarefas() {
     let valores = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
     let lista = document.getElementById("listaTarefa")
+    let tarefa1 = document.getElementById("tarefa1")
+    let tarefa2 = document.getElementById("tarefa2")
+    let tarefa3 = document.getElementById("tarefa3")
+    let tarefa4 = document.getElementById("tarefa4")
+    let data1 = document.getElementById("data1")
+    let data2 = document.getElementById("data2")
+    let data3 = document.getElementById("data3")
+    let data4 = document.getElementById("data4")
+    let descricao1 = document.getElementById("descricao1")
+    let descricao2 = document.getElementById("descricao2")
+    let descricao3 = document.getElementById("descricao3")
+    let descricao4 = document.getElementById("descricao4")
+
     
     lista.innerHTML = ""; // Limpa a lista antes de mostrar as tarefas novamente
 
@@ -91,6 +104,19 @@ function mostrarTarefas() {
         </svg>
         </button></li>`;
     }
+    tarefa1.innerHTML = valores[0]['nome'];
+    descricao1.innerHTML = valores[0]['descricao'];
+    data1.innerHTML = valores[0]['data'];
+    tarefa2.innerHTML = valores[1]['nome'];
+    descricao2.innerHTML = valores[1]['descricao'];
+    data2.innerHTML = valores[1]['data'];
+    tarefa3.innerHTML = valores[2]['nome'];
+    descricao3.innerHTML = valores[2]['descricao'];
+    data3.innerHTML = valores[2]['data'];
+    tarefa4.innerHTML = valores[3]['nome'];
+    descricao4.innerHTML = valores[3]['descricao'];
+    data4.innerHTML = valores[3]['data'];
+    
 }
 
 function apagaritem(nome){

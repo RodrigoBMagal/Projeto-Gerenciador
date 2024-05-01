@@ -37,7 +37,6 @@ function adicionarTarefa(txt_nome, txt_data, txt_descricao) {
         descricao: txt_descricao,
     })
     localStorage.setItem(localStorageKey, JSON.stringify(valores))
-    mostrarTarefas();
 
     // Faz a requisição AJAX para adicionar no banco de dados
     $.ajax({
@@ -55,7 +54,8 @@ function adicionarTarefa(txt_nome, txt_data, txt_descricao) {
             alert("Erro na requisição: " + error);
         }
     });
-}
+    mostrarTarefas();
+};
 
 $("#pegar-tarefas").click(function (e) {
     e.preventDefault();

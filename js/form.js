@@ -95,9 +95,9 @@ function mostrarTarefas() {
 
     for (let i = 0; i < valores.length; i++){
         lista.innerHTML += `<li class="d-flex flex-column align-items-center border rounded mw-100 mh-100 m-2 h-25">
-        <div class="p-2">${valores[i]['nome']}</div>
-        <div class="p-2">${valores[i]['descricao']}</div>
-        <div class="p-2">${valores[i]['data']}</div>
+        <div class="p-2 mw-100 mh-100">${valores[i]['nome']}</div>
+        <div class="p-2 mw-100 mh-100">${valores[i]['descricao']}</div>
+        <div class="p-2 mw-100 mh-100">${valores[i]['data']}</div>
         <button id="concluida" class="p-2" onclick="apagaritem('${valores[i]['nome']}')">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
          <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>

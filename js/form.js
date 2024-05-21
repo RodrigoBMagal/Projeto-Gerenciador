@@ -120,7 +120,7 @@ $(document).ready(function () {
         });
     }
 
-    function apagaritem(nome) {
+    window.apagaritem = function(nome) {
         let valores = JSON.parse(localStorage.getItem(localStorageKey)) || [];
         let index = valores.findIndex(x => x.nome === nome);
         if (index > -1) {

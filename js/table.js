@@ -145,7 +145,7 @@ $(document).ready(function () {
                     response.forEach(function (staff) {
                         let staffDiv = `
                             <div class="staff-member">
-                                <img src="https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg" alt="${staff.nome}" class="staff-photo">
+                                <img class="rounded-circle" src="https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg" alt="${staff.nome}" class="staff-photo">
                                 <div class="staff-info">
                                     <strong>${staff.nome}</strong>
                                     <p>${staff.tarefa_nome}</p>

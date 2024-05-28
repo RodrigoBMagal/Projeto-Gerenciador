@@ -11,7 +11,7 @@ try {
     $stmt = $conn->query("
         SELECT staff.nome, tarefa.nome AS tarefa_nome
         FROM staff
-        JOIN tarefa ON staff.tarefa_id = tarefa.id
+        JOIN tarefa ON staff.tarefa_id = tarefa.nome
         WHERE staff.tarefa_id IS NOT NULL
     ");
     $staffWithTasks = $stmt->fetchAll(PDO::FETCH_ASSOC);

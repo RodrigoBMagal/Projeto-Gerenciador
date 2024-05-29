@@ -19,7 +19,12 @@ try {
         $stmt->bindParam(':descricao', $descricao);
         $stmt->execute();
 
+        foreach ($data as &$row) {
+            $row['data'] = DateTime::createFromFormat('Y-m-d', $row['data'])->format('d/m/Y');
+        }
+
         $response = ["success" => true, "message" => "Dados recebidos com sucesso!"];
+        
     } else {
         // Se os dados não foram recebidos corretamente, retorna um erro em JSON
         http_response_code(400); // Bad Request

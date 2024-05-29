@@ -26,9 +26,6 @@ $(document).ready(function () {
         });
     });
 
-    // Load table data on page load
-    loadTableData();
-    loadStaffWithTasks();
 
     // Function to load table data
     function loadTableData() {
@@ -46,6 +43,7 @@ $(document).ready(function () {
                     let tableRow = '<tr>';
                     row.forEach(function (cell, index) {
                         if (index == row.length - 1) {
+                            console.log(index, row.length);
                             tableRow += '<td>' + generateTarefaDropdown(row[0], cell) + '</td>';
                         } else {
                             tableRow += '<td>' + cell + '</td>';
@@ -129,44 +127,5 @@ $(document).ready(function () {
             }
         });
     }
-
-    function loadStaffWithTasks() {
-        $.ajax({
-            url: 'http://localhost/Projeto-Gerenciador/php/load_staff.php',
-            type: 'GET',
-            dataType: 'json',
-            success: function (response) {
-                console.log('Response from server:', response); 
-                
-                if (Array.isArray(response)) {
-                    let staffContainer = $('#staffContainer');
-                    staffContainer.empty();
-
-                    response.forEach(function (staff) {
-                        let staffDiv = `
-                            <div class="staff-member">
-                                <img class="rounded-circle" src="https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg" alt="${staff.nome}" class="staff-photo">
-                                <div class="staff-info">
-                                    <strong>${staff.nome}</strong>
-                                    <p>${staff.tarefa_nome}</p>
-                                </div>
-                            </div>
-                        `;
-                        staffContainer.append(staffDiv);
-                    });
-                } else {
-                    console.error('Unexpected response format:', response);
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error('Error in request:', error);
-                console.log('Response text:', xhr.responseText); 
-            }
-        });
-    }
-
-    $(document).ready(function () {
-        loadStaffWithTasks();
-    });
-
+    loadTableData();
 });

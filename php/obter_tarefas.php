@@ -15,6 +15,16 @@ try {
     // Obtém os resultados da consulta
     $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // Formata a data para o formato brasileiro
+    foreach ($resultados as &$row) {
+        if (isset($row['data'])) { 
+            $date = DateTime::createFromFormat('Y-m-d', $row['data']);
+            if ($date) {
+                $row['data'] = $date->format('d/m/Y');
+            }
+        }
+    }
+
     // Retorna os resultados em JSON
     echo json_encode($resultados);
 } catch (PDOException $e) {

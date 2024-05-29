@@ -15,6 +15,11 @@ try {
     $stmt = $conn->prepare($query);
     $stmt->execute(array(':nome' => $nome));
 
+    // Atualiza a coluna tarefa_id na tabela staff para NULL onde tarefa_id é igual ao nome da tarefa excluída
+    $queryUpdate = "UPDATE staff SET tarefa_id = NULL WHERE tarefa_id = :nome";
+    $stmtUpdate = $conn->prepare($queryUpdate);
+    $stmtUpdate->execute(array(':nome' => $nome));
+
     echo json_encode(array('success' => true));
 } catch (PDOException $e) {
     echo json_encode(array('error' => 'Erro no servidor: ' . $e->getMessage()));

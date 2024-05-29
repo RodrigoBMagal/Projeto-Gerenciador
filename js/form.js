@@ -1,7 +1,7 @@
 const localStorageKey = "ListaTarefas";
 
 $(document).ready(function () {
-    // Inicializa o localStorage se estiver vazio
+
     if (!localStorage.getItem(localStorageKey)) {
         localStorage.setItem(localStorageKey, JSON.stringify([]));
     }
@@ -12,6 +12,9 @@ $(document).ready(function () {
         var txt_nome = $('#nome').val();
         var txt_data = $('#data').val();
         var txt_descricao = $('#descricao').val();
+
+        var partesData = txt_data.split('-'); // Divide a string da data em partes
+        var txt_data = partesData[2] + '/' + partesData[1] + '/' + partesData[0];
 
         // Verifica se o nome já existe no banco de dados
         $.ajax({
@@ -120,30 +123,66 @@ $(document).ready(function () {
         });
     }
 
-    window.apagaritem = function(nome) {
-        let valores = JSON.parse(localStorage.getItem(localStorageKey)) || [];
-        let index = valores.findIndex(x => x.nome === nome);
-        if (index > -1) {
-            valores.splice(index, 1);
-            localStorage.setItem(localStorageKey, JSON.stringify(valores));
+window.apagaritem = function(nome) {
+    let valores = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+    let index = valores.findIndex(x => x.nome === nome);
+    if (index > -1) {
+        valores.splice(index, 1);
+        localStorage.setItem(localStorageKey, JSON.stringify(valores));
 
-            // Faz a requisição AJAX para excluir o item no banco de dados
-            $.ajax({
-                url: 'http://localhost/Projeto-Gerenciador/php/apagar_item.php',
-                type: 'POST',
-                data: { nome: nome },
-                dataType: 'json',
-                success: function (response) {
-                    console.log("Item excluído do banco de dados:", response);
-                    mostrarTarefas(); // Atualiza a lista após a exclusão
-                },
-                error: function (xhr, status, error) {
-                    console.error("Erro na requisição:", error);
-                    alert("Erro na requisição: " + error);
+        // Faz a requisição AJAX para excluir o item no banco de dados
+        $.ajax({
+            url: 'http://localhost/Projeto-Gerenciador/php/apagar_item.php',
+            type: 'POST',
+            data: { nome: nome },
+            dataType: 'json',
+            success: function (response) {
+                console.log("Item excluído do banco de dados:", response);
+                mostrarTarefas(); // Atualiza a lista após a exclusão
+            },
+            error: function (xhr, status, error) {
+                console.error("Erro na requisição:", error);
+                alert("Erro na requisição: " + error);
+            }
+        });
+    }
+}
+
+
+        function loadStaffWithTasks() {
+        $.ajax({
+            url: 'http://localhost/Projeto-Gerenciador/php/load_staff.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                console.log('Response from server:', response); 
+                
+                if (Array.isArray(response)) {
+                    let staffContainer = $('#staffContainer');
+                    staffContainer.empty();
+
+                    response.forEach(function (staff) {
+                        let staffDiv = `
+                            <div class="staff-member d-flex flex-column align-items-center w-30 h-30 m-1">
+                                <img class="w-75" src="https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg" alt="${staff.nome}" class="staff-photo">
+                                <div class="staff-info">${staff.nome}</div>
+                                <h5 class="staff-info"><strong>${staff.tarefa_nome}</strong></h5>
+                            </div>
+                        `;
+                        staffContainer.append(staffDiv);
+                    });
+                } else {
+                    console.error('Unexpected response format:', response);
                 }
-            });
-        }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error in request:', error);
+                console.log('Response text:', xhr.responseText); 
+            }
+        });
     }
 
+    loadStaffWithTasks();
+    
     mostrarTarefas(); // Chama a função para mostrar tarefas ao carregar a página
 });

@@ -59,10 +59,10 @@ $(document).ready(function () {
 
     function generateTarefaDropdown(staffNome) {
         return `
-            <select class="tarefa-dropdown" data-staff-nome="${staffNome}">
+            <select class="border rounded tarefa-dropdown" data-staff-nome="${staffNome}">
                 <option value="">Selecione uma tarefa</option>
             </select>
-            <button class="save-tarefa" data-staff-nome="${staffNome}">Salvar</button>
+            <button class="border rounded save-tarefa" data-staff-nome="${staffNome}">Salvar</button>
         `;
     }
 

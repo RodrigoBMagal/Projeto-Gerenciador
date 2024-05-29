@@ -13,7 +13,7 @@ $(document).ready(function () {
         var txt_data = $('#data').val();
         var txt_descricao = $('#descricao').val();
 
-        var partesData = txt_data.split('-'); // Divide a string da data em partes
+        var partesData = txt_data.split('-'); 
         var txt_data = partesData[2] + '/' + partesData[1] + '/' + partesData[0];
 
         // Verifica se o nome já existe no banco de dados

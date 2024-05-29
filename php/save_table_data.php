@@ -10,10 +10,6 @@ try {
 
     $stmt = $conn->prepare("INSERT INTO staff (nome, cargo, local, idade, contrato, salario) VALUES (:nome, :cargo, :local, :idade, :contrato, :salario)");
 
-    foreach ($data as &$row) {
-        $row['contrato'] = DateTime::createFromFormat('Y-m-d', $row['contrato'])->format('d/m/Y');
-    }
-
     foreach ($data as $row) {
         $stmt->execute([
             ':nome' => $row[0],

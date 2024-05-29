@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    // Function to extract data from the table and send to server
     $('#saveTable').click(function () {
         let tableData = [];
         $('#dataTable tbody tr').each(function () {
@@ -10,7 +9,7 @@ $(document).ready(function () {
             tableData.push(row);
         });
 
-        console.log('Table Data:', tableData); // Log para depuração
+        console.log('Table Data:', tableData); 
 
         $.ajax({
             url: 'http://localhost/Projeto-Gerenciador/php/save_table_data.php',
@@ -27,54 +26,46 @@ $(document).ready(function () {
     });
 
 
-    // Function to load table data
     function loadTableData() {
         $.ajax({
             url: 'http://localhost/Projeto-Gerenciador/php/load_table_data.php',
             type: 'GET',
             dataType: 'json',
             success: function (response) {
-                console.log('Response from server:', response); // Log the server response
+                console.log('Response from server:', response); 
 
                 let tableBody = $('#dataTable tbody');
                 tableBody.empty();
 
                 response.forEach(function (row) {
                     let tableRow = '<tr>';
-                    row.forEach(function (cell, index) {
-                        if (index == row.length - 1) {
-                            console.log(index, row.length);
-                            tableRow += '<td>' + generateTarefaDropdown(row[0], cell) + '</td>';
-                        } else {
-                            tableRow += '<td>' + cell + '</td>';
-                        }
+                    row.forEach(function (cell) {
+                        tableRow += '<td>' + cell + '</td>';
                     });
+                        var cell;
+                        tableRow += '<td>' + generateTarefaDropdown(row[0], cell) + '</td>';
                     tableRow += '</tr>';
                     tableBody.append(tableRow);
                 });
 
-                // Fetch tarefas and populate dropdowns
                 loadTarefas();
             },
             error: function (xhr, status, error) {
                 console.error('Error in request:', error);
-                console.log('Response text:', xhr.responseText); // Log the response text for more details
+                console.log('Response text:', xhr.responseText); 
             }
         });
     }
 
-    // Function to generate tarefa dropdown
-    function generateTarefaDropdown(staffNome, currentTarefa) {
+    function generateTarefaDropdown(staffNome) {
         return `
             <select class="tarefa-dropdown" data-staff-nome="${staffNome}">
                 <option value="">Selecione uma tarefa</option>
             </select>
             <button class="save-tarefa" data-staff-nome="${staffNome}">Salvar</button>
-            <span class="current-tarefa">${currentTarefa}</span>
         `;
     }
 
-    // Function to load tarefas and populate dropdowns
     function loadTarefas() {
         $.ajax({
             url: 'http://localhost/Projeto-Gerenciador/php/get_tarefa.php',
@@ -91,7 +82,6 @@ $(document).ready(function () {
                     });
                 });
 
-                // Attach event listener to save buttons
                 $('.save-tarefa').click(function () {
                     let staffNome = $(this).data('staff-nome');
                     let tarefaNome = $(this).siblings('.tarefa-dropdown').val();
@@ -109,7 +99,6 @@ $(document).ready(function () {
         });
     }
 
-    // Function to update tarefa
     function updateTarefa(staffNome, tarefaNome) {
         $.ajax({
             url: 'http://localhost/Projeto-Gerenciador/php/update_tarefa.php',
@@ -120,7 +109,7 @@ $(document).ready(function () {
             },
             success: function (response) {
                 alert('Tarefa atualizada com sucesso!');
-                loadTableData(); // Refresh the table
+                loadTableData(); 
             },
             error: function (xhr, status, error) {
                 console.error('Error in request:', error);

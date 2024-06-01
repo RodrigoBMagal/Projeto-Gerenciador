@@ -114,13 +114,15 @@ $(document).ready(function () {
             $(`#data${i}`).empty();
         }
 
-        // Distribui as tarefas pelos layouts
+        // Distribui as tarefas pelos layouts, limitando a 4 tarefas
         valores.forEach((tarefa, index) => {
-            let layoutIndex = (index % 4) + 1; // Distribui ciclicamente entre 1 e 4
-            $(`#tarefa${layoutIndex}`).append(`<div>${tarefa.nome}</div>`);
-            $(`#descricao${layoutIndex}`).append(`<div>${tarefa.descricao}</div>`);
-            $(`#data${layoutIndex}`).append(`<div>${tarefa.data}</div>`);
-        });
+            if (index < 4) { // Verifica se o índice é menor que 4
+                let layoutIndex = (index % 4) + 1; // Distribui ciclicamente entre 1 e 4
+                $(`#tarefa${layoutIndex}`).append(`<div>${tarefa.nome}</div>`);
+                $(`#descricao${layoutIndex}`).append(`<div>${tarefa.descricao}</div>`);
+                $(`#data${layoutIndex}`).append(`<div>${tarefa.data}</div>`);
+            }
+        })
     }
 
 window.apagaritem = function(nome) {
@@ -182,7 +184,8 @@ window.apagaritem = function(nome) {
         });
     }
 
-    loadStaffWithTasks();
+    
+    setInterval(loadStaffWithTasks, 1000);
     
     mostrarTarefas(); // Chama a função para mostrar tarefas ao carregar a página
 });

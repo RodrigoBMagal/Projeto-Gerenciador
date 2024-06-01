@@ -9,7 +9,7 @@ $(document).ready(function () {
             tableData.push(row);
         });
 
-        console.log('Table Data:', tableData); 
+        console.log('Table Data:', tableData);
 
         $.ajax({
             url: 'http://localhost/Projeto-Gerenciador/php/save_table_data.php',
@@ -25,15 +25,13 @@ $(document).ready(function () {
         });
     });
 
-
-    function loadTableData() {
+    function loadTableData(searchTerm = '') {
         $.ajax({
             url: 'http://localhost/Projeto-Gerenciador/php/load_table_data.php',
             type: 'GET',
             dataType: 'json',
+            data: { search: searchTerm },
             success: function (response) {
-                console.log('Response from server:', response); 
-
                 let tableBody = $('#dataTable tbody');
                 tableBody.empty();
 
@@ -42,8 +40,8 @@ $(document).ready(function () {
                     row.forEach(function (cell) {
                         tableRow += '<td>' + cell + '</td>';
                     });
-                        var cell;
-                        tableRow += '<td>' + generateTarefaDropdown(row[0], cell) + '</td>';
+                    var cell;
+                    tableRow += '<td>' + generateTarefaDropdown(row[0]) + '</td>';
                     tableRow += '</tr>';
                     tableBody.append(tableRow);
                 });
@@ -52,14 +50,21 @@ $(document).ready(function () {
             },
             error: function (xhr, status, error) {
                 console.error('Error in request:', error);
-                console.log('Response text:', xhr.responseText); 
+                console.log('Response text:', xhr.responseText);
             }
         });
     }
 
+    loadTableData();
+
+    $('#searchInput').on('keyup', function () {
+        let value = $(this).val().toLowerCase();
+        loadTableData(value);
+    });
+
     function generateTarefaDropdown(staffNome) {
         return `
-            <select class="border rounded tarefa-dropdown" data-staff-nome="${staffNome}">
+            <select class="border rounded tarefa-dropdown w-75" data-staff-nome="${staffNome}">
                 <option value="">Selecione uma tarefa</option>
             </select>
             <button class="border rounded save-tarefa" data-staff-nome="${staffNome}">Salvar</button>
@@ -87,13 +92,14 @@ $(document).ready(function () {
                     let tarefaNome = $(this).siblings('.tarefa-dropdown').val();
 
                     if (tarefaNome) {
+                        console.log('Updating task for:', staffNome, 'with task:', tarefaNome);
                         updateTarefa(staffNome, tarefaNome);
                     } else {
                         alert('Selecione uma tarefa antes de salvar.');
                     }
                 });
             },
-            error: function (xhr, status, error) {
+            error: function (error) {
                 console.error('Error in request:', error);
             }
         });
@@ -108,13 +114,14 @@ $(document).ready(function () {
                 tarefa_nome: tarefaNome
             },
             success: function (response) {
+                console.log('Update response:', response);
                 alert('Tarefa atualizada com sucesso!');
-                loadTableData(); 
+                loadTableData("");  // Chame loadTableData para atualizar a tabela após a atualização da tarefa
             },
             error: function (xhr, status, error) {
                 console.error('Error in request:', error);
+                console.log('Response text:', xhr.responseText);
             }
         });
     }
-    loadTableData();
 });

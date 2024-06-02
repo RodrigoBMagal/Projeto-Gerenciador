@@ -84,25 +84,29 @@ $(document).ready(function () {
     });
 
     function mostrarTarefas() {
-        let valores = JSON.parse(localStorage.getItem(localStorageKey)) || [];
-        let lista = $("#listaTarefa");
-        lista.empty(); // Limpa a lista antes de mostrar as tarefas novamente
+    let valores = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+    let lista = $("#listaTarefa");
+    lista.empty(); // Limpa a lista antes de mostrar as tarefas novamente
 
-        valores.forEach((tarefa, index) => {
-            lista.append(
-                    `<li class="d-flex flex-column align-items-center border rounded mw-100 mh-100 m-2 h-25">
-                    <h5 class="p-2 mw-100 mh-100">${tarefa.nome}</h5>
-                    <div class="p-2 mw-100 mh-100">${tarefa.descricao}</div>
-                    <div class="p-2 mw-100 mh-100">${tarefa.data}</div>
-                    <button id="concluida" class="p-2" onclick="apagaritem('${tarefa.nome}')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-                            <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-                        </svg>
-                    </button>
-                </li>`
-            );
+    valores.forEach((tarefa, index) => {
+        // Substituir pontos finais por quebras de linha
+        let descricaoFormatada = tarefa.descricao.split('.').join('.<br>');
 
-        });
+        lista.append(
+            `<div class="task-card d-flex flex-column align-items-center border rounded m-2 p-2 mh-fit">
+                <h4 class="w-100 text-center">${tarefa.nome}</h4>
+                <div class="w-100 text-center">${descricaoFormatada}</div>
+                <div class="w-100 text-center">${tarefa.data}</div>
+                <button id="concluida" class="p-2" onclick="apagaritem('${tarefa.nome}')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                        <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                    </svg>
+                </button>
+            </div>`
+        );
+    });
+
+
         
         // Ordena as tarefas pela data
         valores.sort((a, b) => new Date(a.data) - new Date(b.data));
@@ -125,6 +129,7 @@ $(document).ready(function () {
         })
     }
 
+
 window.apagaritem = function(nome) {
     let valores = JSON.parse(localStorage.getItem(localStorageKey)) || [];
     let index = valores.findIndex(x => x.nome === nome);
@@ -141,6 +146,7 @@ window.apagaritem = function(nome) {
             success: function (response) {
                 console.log("Item excluído do banco de dados:", response);
                 mostrarTarefas(); // Atualiza a lista após a exclusão
+                loadStaffWithTasks();
             },
             error: function (xhr, status, error) {
                 console.error("Erro na requisição:", error);
@@ -185,7 +191,7 @@ window.apagaritem = function(nome) {
     }
 
     
-    setInterval(loadStaffWithTasks, 1000);
+    loadStaffWithTasks();
     
     mostrarTarefas(); // Chama a função para mostrar tarefas ao carregar a página
 });

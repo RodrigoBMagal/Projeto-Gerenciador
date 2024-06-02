@@ -13,9 +13,6 @@ $(document).ready(function () {
         var txt_data = $('#data').val();
         var txt_descricao = $('#descricao').val();
 
-        var partesData = txt_data.split('-'); 
-        var txt_data = partesData[2] + '/' + partesData[1] + '/' + partesData[0];
-
         // Verifica se o nome já existe no banco de dados
         $.ajax({
             url: 'http://localhost/Projeto-Gerenciador/php/verificar_nome.php',
@@ -93,7 +90,7 @@ $(document).ready(function () {
         let descricaoFormatada = tarefa.descricao.split('.').join('.<br>');
 
         lista.append(
-            `<div class="task-card d-flex flex-column align-items-center border rounded m-2 p-2 mh-fit">
+            `<div class="task-card d-flex flex-column align-items-center border rounded m-2 p-2 mh-fit w-49">
                 <h4 class="w-100 text-center">${tarefa.nome}</h4>
                 <div class="w-100 text-center">${descricaoFormatada}</div>
                 <div class="w-100 text-center">${tarefa.data}</div>
@@ -108,8 +105,14 @@ $(document).ready(function () {
 
 
         
-        // Ordena as tarefas pela data
-        valores.sort((a, b) => new Date(a.data) - new Date(b.data));
+        // Função para converter dd-mm-yyyy para yyyy-mm-dd
+        function formatDate(dateStr) {
+            let parts = dateStr.split('/');
+            return `${parts[2]}-${parts[1]}-${parts[0]}`;
+        }
+
+        // Ordena os valores após converter as datas
+        valores.sort((a, b) => new Date(formatDate(a.data)) - new Date(formatDate(b.data)));
 
         // Limpa os elementos de tarefas, descrições e datas
         for (let i = 1; i <= 4; i++) {
@@ -126,7 +129,8 @@ $(document).ready(function () {
                 $(`#descricao${layoutIndex}`).append(`<div>${tarefa.descricao}</div>`);
                 $(`#data${layoutIndex}`).append(`<div>${tarefa.data}</div>`);
             }
-        })
+        });
+
     }
 
 
@@ -170,13 +174,12 @@ window.apagaritem = function(nome) {
                     staffContainer.empty();
 
                     response.forEach(function (staff) {
-                        let staffDiv = `
-                            <div class="staff-member d-flex flex-column align-items-center w-30 h-30 m-1">
-                                <img class="w-75" src="https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg" alt="${staff.nome}" class="staff-photo">
-                                <div class="staff-info">${staff.nome}</div>
-                                <h5 class="staff-info"><strong>${staff.tarefa_nome}</strong></h5>
-                            </div>
-                        `;
+                        let staffDiv = 
+                        `<div class="staff-member d-flex flex-column align-items-center border rounded p-1 m-1 mh-fit w-47">
+                            <img class="w-100 text-center" src="https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg" alt="${staff.nome}" class="staff-photo">
+                            <div class="w-100 text-center">${staff.nome}</div>
+                            <h5 class="w-100 text-center"><strong>${staff.tarefa_nome}</strong></h5>
+                        </div>`;
                         staffContainer.append(staffDiv);
                     });
                 } else {

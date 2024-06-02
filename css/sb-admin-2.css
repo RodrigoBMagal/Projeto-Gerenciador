@@ -52,7 +52,6 @@ html {
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  overflow: hidden;
 }
 
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
@@ -985,6 +984,10 @@ pre code {
   .offset-sm-11 {
     margin-left: 91.66667%;
   }
+}
+
+.task-card{
+  background-color: #E8E8E8;
 }
 
 @media (min-width: 768px) {
@@ -7629,8 +7632,12 @@ button.bg-dark:focus {
 }
 
 
-.mw-49 {
-  max-width: 49% !important;
+.w-47{
+  width: 47% !important;
+}
+
+.w-49 {
+  width: 48% !important;
 }
 
 .w-50 {
@@ -7679,7 +7686,6 @@ button.bg-dark:focus {
 
 .mh-fit {
   height: fit-content !important;
-  background-color: #E8E8E8;
 }
 
 .mh-100 {
@@ -9856,7 +9862,7 @@ a:focus {
 #wrapper #content-wrapper {
   background-color: #f8f9fc;
   width: 100%;
-  overflow: auto;
+  overflow: hidden;
 }
 
 #wrapper #content-wrapper #content {

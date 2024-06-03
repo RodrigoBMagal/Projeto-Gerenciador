@@ -8,12 +8,7 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Query para buscar funcionários com tarefas não nulas
-    $stmt = $conn->query("
-        SELECT staff.nome, tarefa.nome AS tarefa_nome
-        FROM staff
-        JOIN tarefa ON staff.tarefa_id = tarefa.nome
-        WHERE staff.tarefa_id IS NOT NULL
-    ");
+    $stmt = $conn->query("SELECT staff.nome, tarefa.nome AS tarefa_nome FROM staff JOIN tarefa ON staff.tarefa_id = tarefa.nome WHERE staff.tarefa_id IS NOT NULL");
     $staffWithTasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Verificar saída no log do servidor

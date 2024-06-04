@@ -18,7 +18,6 @@ try {
     // Retorna os resultados em JSON
     echo json_encode($resultados);
 } catch (PDOException $e) {
-    // Se houver um erro na conexão com o banco de dados, retorna um erro em JSON
-    http_response_code(500); // Internal Server Error
+    http_response_code(500);
     echo json_encode(["error" => "Erro no servidor: " . $e->getMessage()]);
 }

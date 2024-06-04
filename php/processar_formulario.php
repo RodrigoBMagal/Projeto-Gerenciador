@@ -6,7 +6,7 @@ try {
     $conn = new PDO("mysql:host=localhost;dbname=bancoprojetoweb", "root", "");
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"], $_POST["data"], $_POST["descricao"])) {
+    if (isset($_POST["nome"], $_POST["data"], $_POST["descricao"])) {
         $nome = $_POST["nome"];
         $data = $_POST["data"];
         $descricao = $_POST["descricao"];

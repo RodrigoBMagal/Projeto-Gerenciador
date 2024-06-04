@@ -20,17 +20,25 @@ try {
         $stmt->execute();
 
         $response = ["success" => true, "message" => "Dados recebidos com sucesso!"];
+
+        // Retorna a resposta em JSON
+        echo json_encode($response);
         
     } else {
         // Se os dados não foram recebidos corretamente, retorna um erro em JSON
         http_response_code(400); // Bad Request
         $response = ["success" => false, "message" => "Dados incompletos ou inválidos."];
+
+        // Retorna a resposta em JSON
+        echo json_encode($response);
     }
 } catch (PDOException $e) {
     // Se houver um erro na conexão com o banco de dados, retorna um erro em JSON
     http_response_code(500); // Internal Server Error
     $response = ["success" => false, "message" => "Erro no servidor: " . $e->getMessage()];
+
+    // Retorna a resposta em JSON
+    echo json_encode($response);
+    
 }
 
-// Retorna a resposta em JSON
-echo json_encode($response);

@@ -9,8 +9,13 @@ $(document).ready(function () {
     $("#meuFormulario").submit(function (e) {
         e.preventDefault(); // Previne o comportamento padrão do formulário
 
+        function formataData(data) {
+            var partesData = data.split('-');
+            return partesData[2] + '/' + partesData[1] + '/' + partesData[0];
+        }
+
         var txt_nome = $('#nome').val();
-        var txt_data = $('#data').val();
+        var txt_data = formataData($('#data').val());
         var txt_descricao = $('#descricao').val();
 
         // Verifica se o nome já existe no banco de dados
@@ -32,6 +37,7 @@ $(document).ready(function () {
             }
         });
     });
+
 
     function adicionarTarefa(txt_nome, txt_data, txt_descricao) {
         let valores = JSON.parse(localStorage.getItem(localStorageKey)) || [];

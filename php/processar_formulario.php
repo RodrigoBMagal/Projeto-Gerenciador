@@ -19,10 +19,6 @@ try {
         $stmt->bindParam(':descricao', $descricao);
         $stmt->execute();
 
-        foreach ($data as &$row) {
-            $row['data'] = DateTime::createFromFormat('Y-m-d', $row['data'])->format('d/m/Y');
-        }
-
         $response = ["success" => true, "message" => "Dados recebidos com sucesso!"];
         
     } else {

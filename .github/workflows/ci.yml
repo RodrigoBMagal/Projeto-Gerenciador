@@ -1,0 +1,113 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  tests:
+    name: Testes automatizados (PHP ${{ matrix.php-version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ["8.2", "8.3"]
+
+    steps:
+      - name: Checkout do codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, dom, fileinfo, mysql, pdo_sqlite, redis, pcov
+          coverage: pcov
+          tools: composer:v2
+
+      - name: Cache das dependencias do Composer
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache/files
+          key: composer-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            composer-${{ matrix.php-version }}-
+
+      - name: Instalar dependencias
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Preparar ambiente de testes
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Analise estatica de estilo (Laravel Pint)
+        run: vendor/bin/pint --test
+
+      - name: Rodar migrations (SQLite em memoria)
+        run: php artisan migrate --force
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ":memory:"
+
+      - name: Rodar testes com cobertura
+        run: |
+          vendor/bin/phpunit \
+            --coverage-clover=storage/coverage.xml \
+            --coverage-text \
+            --log-junit=storage/junit.xml
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ":memory:"
+
+      - name: Publicar sumario de cobertura no job
+        if: always()
+        run: |
+          if [ -f storage/coverage.xml ]; then
+            echo "### Cobertura de testes" >> $GITHUB_STEP_SUMMARY
+            php -r '
+              $xml = simplexml_load_file("storage/coverage.xml");
+              $metrics = $xml->project->metrics;
+              $covered = (int) $metrics["coveredstatements"];
+              $total = (int) $metrics["statements"];
+              $pct = $total > 0 ? round(($covered / $total) * 100, 2) : 0;
+              echo "- Statements cobertos: {$covered}/{$total} ({$pct}%)\n";
+            ' >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Upload dos artefatos de teste (cobertura e JUnit)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-php${{ matrix.php-version }}
+          path: |
+            storage/coverage.xml
+            storage/junit.xml
+          if-no-files-found: ignore
+
+      - name: Upload de cobertura para o Codecov
+        if: matrix.php-version == '8.2'
+        uses: codecov/codecov-action@v4
+        with:
+          files: storage/coverage.xml
+          fail_ci_if_error: false
+        continue-on-error: true
+
+  build-docker:
+    name: Build da imagem Docker
+    runs-on: ubuntu-latest
+    needs: tests
+
+    steps:
+      - name: Checkout do codigo
+        uses: actions/checkout@v4
+
+      - name: Build da imagem (validacao do Dockerfile)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: projeto-gerenciador:ci

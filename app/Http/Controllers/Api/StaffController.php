@@ -26,6 +26,11 @@ class StaffController extends Controller
     {
     }
 
+    /**
+     * Lista/pesquisa membros da equipe.
+     *
+     * @param  string|null  $search  Termo de busca (nome, cargo, local, contrato, etc.)
+     */
     public function index(Request $request): JsonResponse
     {
         $membros = $this->service->listar($request->query('search'));
@@ -33,6 +38,9 @@ class StaffController extends Controller
         return response()->json(StaffResource::collection($membros));
     }
 
+    /**
+     * Cria um novo membro da equipe.
+     */
     public function store(StoreStaffRequest $request): JsonResponse
     {
         $membro = $this->service->criar($request->validated());
@@ -73,6 +81,11 @@ class StaffController extends Controller
     /**
      * Atribui uma tarefa (pelo nome) a um membro da equipe.
      * Equivalente ao antigo update_tarefa.php.
+     */
+    /**
+     * Atribui uma tarefa (pelo nome) a um membro da equipe.
+     *
+     * Falha com 422 caso a tarefa informada nao exista.
      */
     public function atribuirTarefa(AssignTarefaRequest $request, Staff $staff): JsonResponse
     {

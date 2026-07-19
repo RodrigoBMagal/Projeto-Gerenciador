@@ -18,6 +18,19 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - gerenciador
+
+  redis:
+    image: redis:7-alpine
+    container_name: gerenciador_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - gerenciador_redis_data:/data
     networks:
       - gerenciador
 
@@ -77,3 +90,4 @@ networks:
 
 volumes:
   gerenciador_db_data:
+  gerenciador_redis_data:

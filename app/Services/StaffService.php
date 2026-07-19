@@ -6,6 +6,8 @@ use App\Models\Staff;
 use App\Repositories\Contracts\StaffRepositoryInterface;
 use App\Repositories\Contracts\TarefaRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -15,6 +17,18 @@ use Illuminate\Validation\ValidationException;
  */
 class StaffService
 {
+    /**
+     * Cache da listagem "sem filtro" (a mais acessada pela tela principal)
+     * e da listagem de staff com tarefa atribuida.
+     * Buscas com termo livre (?search=) nao sao cacheadas, pois tem
+     * baixa taxa de repeticao e alta cardinalidade de chaves.
+     */
+    public const CACHE_KEY_TODOS = 'staff:all';
+
+    public const CACHE_KEY_COM_TAREFA = 'staff:com_tarefa';
+
+    private const CACHE_TTL_SEGUNDOS = 300;
+
     public function __construct(
         private readonly StaffRepositoryInterface $staff,
         private readonly TarefaRepositoryInterface $tarefas,
@@ -23,6 +37,14 @@ class StaffService
 
     public function listar(?string $termo): Collection
     {
+        if (blank($termo)) {
+            return Cache::remember(self::CACHE_KEY_TODOS, self::CACHE_TTL_SEGUNDOS, function () {
+                Log::channel('structured')->info('cache_miss', ['key' => self::CACHE_KEY_TODOS]);
+
+                return $this->staff->search(null);
+            });
+        }
+
         return $this->staff->search($termo);
     }
 
@@ -41,7 +63,11 @@ class StaffService
 
     public function criar(array $dados): Staff
     {
-        return $this->staff->create($dados);
+        $membro = $this->staff->create($dados);
+
+        $this->invalidarCache();
+
+        return $membro;
     }
 
     /**
@@ -50,17 +76,27 @@ class StaffService
      */
     public function criarEmLote(array $linhas): Collection
     {
-        return $this->staff->createMany($linhas);
+        $membros = $this->staff->createMany($linhas);
+
+        $this->invalidarCache();
+
+        return $membros;
     }
 
     public function atualizar(Staff $membro, array $dados): Staff
     {
-        return $this->staff->update($membro, $dados);
+        $membro = $this->staff->update($membro, $dados);
+
+        $this->invalidarCache();
+
+        return $membro;
     }
 
     public function remover(Staff $membro): void
     {
         $this->staff->delete($membro);
+
+        $this->invalidarCache();
     }
 
     /**
@@ -78,7 +114,11 @@ class StaffService
             ]);
         }
 
-        return $this->staff->update($membro, ['tarefa_id' => $tarefa->id]);
+        $membro = $this->staff->update($membro, ['tarefa_id' => $tarefa->id]);
+
+        $this->invalidarCache();
+
+        return $membro;
     }
 
     /**
@@ -87,6 +127,20 @@ class StaffService
      */
     public function comTarefaAtribuida(): Collection
     {
-        return $this->staff->comTarefaNaoNula();
+        return Cache::remember(self::CACHE_KEY_COM_TAREFA, self::CACHE_TTL_SEGUNDOS, function () {
+            Log::channel('structured')->info('cache_miss', ['key' => self::CACHE_KEY_COM_TAREFA]);
+
+            return $this->staff->comTarefaNaoNula();
+        });
+    }
+
+    /**
+     * Limpa as chaves de cache de staff. Chamado sempre que um membro e
+     * criado, atualizado, removido ou tem uma tarefa (re)atribuida.
+     */
+    private function invalidarCache(): void
+    {
+        Cache::forget(self::CACHE_KEY_TODOS);
+        Cache::forget(self::CACHE_KEY_COM_TAREFA);
     }
 }

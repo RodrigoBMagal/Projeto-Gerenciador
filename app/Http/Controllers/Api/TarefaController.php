@@ -23,11 +23,22 @@ class TarefaController extends Controller
     {
     }
 
+    /**
+     * Lista todas as tarefas.
+     *
+     * Retorna todas as tarefas cadastradas, ordenadas por data. O resultado
+     * fica em cache por alguns minutos (ver TarefaService).
+     */
     public function index(): JsonResponse
     {
         return response()->json(TarefaResource::collection($this->service->listar()));
     }
 
+    /**
+     * Cria uma nova tarefa.
+     *
+     * Falha com 422 caso ja exista uma tarefa com o mesmo nome.
+     */
     public function store(StoreTarefaRequest $request): JsonResponse
     {
         $tarefa = $this->service->criar($request->validated());
@@ -35,11 +46,17 @@ class TarefaController extends Controller
         return response()->json(new TarefaResource($tarefa), 201);
     }
 
+    /**
+     * Exibe uma tarefa especifica.
+     */
     public function show(Tarefa $tarefa): JsonResponse
     {
         return response()->json(new TarefaResource($tarefa));
     }
 
+    /**
+     * Atualiza uma tarefa existente.
+     */
     public function update(UpdateTarefaRequest $request, Tarefa $tarefa): JsonResponse
     {
         $tarefa = $this->service->atualizar($tarefa, $request->validated());
@@ -47,6 +64,12 @@ class TarefaController extends Controller
         return response()->json(new TarefaResource($tarefa));
     }
 
+    /**
+     * Remove uma tarefa.
+     *
+     * Qualquer membro da equipe vinculado a essa tarefa e automaticamente
+     * desvinculado (tarefa_id passa a null).
+     */
     public function destroy(Tarefa $tarefa): JsonResponse
     {
         $this->service->remover($tarefa);

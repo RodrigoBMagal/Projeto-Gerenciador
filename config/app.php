@@ -49,6 +49,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         Laravel\Sanctum\SanctumServiceProvider::class,
+        Dedoc\Scramble\ScrambleServiceProvider::class,
 
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,

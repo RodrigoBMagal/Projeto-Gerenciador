@@ -6,6 +6,8 @@ use App\Models\Tarefa;
 use App\Repositories\Contracts\StaffRepositoryInterface;
 use App\Repositories\Contracts\TarefaRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -18,6 +20,14 @@ use Illuminate\Validation\ValidationException;
  */
 class TarefaService
 {
+    /**
+     * Chave de cache da listagem completa de tarefas (consulta mais
+     * frequente da API) e seu tempo de vida.
+     */
+    private const CACHE_KEY_LISTA = 'tarefas:all';
+
+    private const CACHE_TTL_SEGUNDOS = 300;
+
     public function __construct(
         private readonly TarefaRepositoryInterface $tarefas,
         private readonly StaffRepositoryInterface $staff,
@@ -26,7 +36,11 @@ class TarefaService
 
     public function listar(): Collection
     {
-        return $this->tarefas->all();
+        return Cache::remember(self::CACHE_KEY_LISTA, self::CACHE_TTL_SEGUNDOS, function () {
+            Log::channel('structured')->info('cache_miss', ['key' => self::CACHE_KEY_LISTA]);
+
+            return $this->tarefas->all();
+        });
     }
 
     public function buscarOuFalhar(int $id): Tarefa
@@ -57,7 +71,11 @@ class TarefaService
             ]);
         }
 
-        return $this->tarefas->create($dados);
+        $tarefa = $this->tarefas->create($dados);
+
+        $this->invalidarCacheDeListagem();
+
+        return $tarefa;
     }
 
     public function atualizar(Tarefa $tarefa, array $dados): Tarefa
@@ -68,7 +86,11 @@ class TarefaService
             ]);
         }
 
-        return $this->tarefas->update($tarefa, $dados);
+        $tarefa = $this->tarefas->update($tarefa, $dados);
+
+        $this->invalidarCacheDeListagem();
+
+        return $tarefa;
     }
 
     public function remover(Tarefa $tarefa): void
@@ -78,5 +100,19 @@ class TarefaService
         $this->staff->desvincularTarefa($tarefa->id);
 
         $this->tarefas->delete($tarefa);
+
+        $this->invalidarCacheDeListagem();
+    }
+
+    /**
+     * Limpa o cache de listagem de tarefas. Chamado sempre que uma tarefa
+     * e criada, atualizada ou removida, para nunca servir dado desatualizado.
+     * Tambem invalida a listagem de staff, ja que ela pode exibir a tarefa
+     * associada a cada membro.
+     */
+    private function invalidarCacheDeListagem(): void
+    {
+        Cache::forget(self::CACHE_KEY_LISTA);
+        Cache::forget(StaffService::CACHE_KEY_COM_TAREFA);
     }
 }

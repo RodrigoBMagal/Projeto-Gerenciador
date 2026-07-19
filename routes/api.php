@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\HealthController;
 use App\Http\Controllers\Api\StaffController;
 use App\Http\Controllers\Api\TarefaController;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,9 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | Todas as rotas aqui ja recebem o prefixo /api (ver RouteServiceProvider).
 */
+
+// Health-check publico, usado por Docker/Kubernetes/monitoramento externo
+Route::get('/health', HealthController::class);
 
 // Rotas publicas de autenticacao
 Route::post('/register', [AuthController::class, 'register']);

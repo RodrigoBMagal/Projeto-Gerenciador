@@ -3,8 +3,21 @@ name: CI
 on:
   push:
     branches: [main, develop]
+    paths:
+      - 'projeto-gerenciador/**'
+      - '.github/workflows/ci.yml'
   pull_request:
     branches: [main, develop]
+    paths:
+      - 'projeto-gerenciador/**'
+      - '.github/workflows/ci.yml'
+
+defaults:
+  run:
+    # O backend Laravel fica em projeto-gerenciador/ dentro deste monorepo
+    # (junto com o front-end em frontend/), entao todo comando roda a partir
+    # dali em vez da raiz do repositorio.
+    working-directory: projeto-gerenciador
 
 jobs:
   tests:
@@ -32,7 +45,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.composer/cache/files
-          key: composer-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
+          key: composer-${{ matrix.php-version }}-${{ hashFiles('projeto-gerenciador/composer.lock') }}
           restore-keys: |
             composer-${{ matrix.php-version }}-
 
@@ -84,15 +97,15 @@ jobs:
         with:
           name: test-results-php${{ matrix.php-version }}
           path: |
-            storage/coverage.xml
-            storage/junit.xml
+            projeto-gerenciador/storage/coverage.xml
+            projeto-gerenciador/storage/junit.xml
           if-no-files-found: ignore
 
       - name: Upload de cobertura para o Codecov
         if: matrix.php-version == '8.2'
         uses: codecov/codecov-action@v4
         with:
-          files: storage/coverage.xml
+          files: projeto-gerenciador/storage/coverage.xml
           fail_ci_if_error: false
         continue-on-error: true
 
@@ -108,6 +121,6 @@ jobs:
       - name: Build da imagem (validacao do Dockerfile)
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: projeto-gerenciador
           push: false
           tags: projeto-gerenciador:ci

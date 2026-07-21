@@ -1,6 +1,6 @@
 # Projeto Gerenciador — API (Laravel)
 
-[![CI](https://github.com/SEU_USUARIO/SEU_REPOSITORIO/actions/workflows/ci.yml/badge.svg)](https://github.com/SEU_USUARIO/SEU_REPOSITORIO/actions/workflows/ci.yml)
+[![CI](https://github.com/RodrigoBMagal/Projeto-Gerenciador/actions/workflows/ci.yml/badge.svg)](https://github.com/RodrigoBMagal/Projeto-Gerenciador/actions/workflows/ci.yml)
 
 Reescrita do projeto original (HTML/jQuery + scripts PHP soltos com PDO direto)
 como uma **API REST em Laravel**, com arquitetura MVC, ORM, autenticação por

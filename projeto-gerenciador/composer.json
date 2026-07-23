@@ -9,7 +9,7 @@
         "dedoc/scramble": "^0.11",
         "guzzlehttp/guzzle": "^7.8",
         "laravel/framework": "^10.10",
-        "laravel/sanctum": "^4.0",
+        "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.9",
         "predis/predis": "^2.2"
     },

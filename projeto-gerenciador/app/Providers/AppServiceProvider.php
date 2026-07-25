@@ -6,6 +6,9 @@ use App\Repositories\Contracts\StaffRepositoryInterface;
 use App\Repositories\Contracts\TarefaRepositoryInterface;
 use App\Repositories\Eloquent\StaffRepository;
 use App\Repositories\Eloquent\TarefaRepository;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Equivalente ao antigo App\Providers\EventServiceProvider::$listen.
+        Event::listen(Registered::class, SendEmailVerificationNotification::class);
+
         // Controla quem pode ver a documentacao OpenAPI/Swagger gerada pelo
         // Scramble em /docs/api. Em ambiente local, libera sempre; em outros
         // ambientes, exige um usuario autenticado (ajuste conforme a politica

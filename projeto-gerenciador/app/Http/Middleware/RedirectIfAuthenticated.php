@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +17,7 @@ class RedirectIfAuthenticated
             if (Auth::guard($guard)->check()) {
                 return $request->expectsJson()
                     ? response()->json(['message' => 'Ja autenticado.'], 409)
-                    : redirect(RouteServiceProvider::HOME);
+                    : redirect('/home');
             }
         }
 

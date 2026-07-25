@@ -1,4 +1,4 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.3-fpm-alpine
 
 WORKDIR /var/www/html
 
@@ -28,6 +28,7 @@ RUN if [ -f composer.json ]; then \
     && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/99-app.ini
+COPY docker/php/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 EXPOSE 9000
 

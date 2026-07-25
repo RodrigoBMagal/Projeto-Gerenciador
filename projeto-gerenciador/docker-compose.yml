@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   app:
     build:
@@ -8,6 +6,7 @@ services:
     container_name: gerenciador_app
     restart: unless-stopped
     working_dir: /var/www/html
+    mem_limit: 400m
     volumes:
       - ./:/var/www/html
     environment:
@@ -27,6 +26,7 @@ services:
     image: redis:7-alpine
     container_name: gerenciador_redis
     restart: unless-stopped
+    mem_limit: 64m
     ports:
       - "6379:6379"
     volumes:
@@ -38,6 +38,7 @@ services:
     image: nginx:1.27-alpine
     container_name: gerenciador_nginx
     restart: unless-stopped
+    mem_limit: 64m
     ports:
       - "8000:80"
     volumes:
@@ -52,6 +53,8 @@ services:
     image: mysql:8.0
     container_name: gerenciador_db
     restart: unless-stopped
+    mem_limit: 350m
+    command: --innodb-buffer-pool-size=128M --max-connections=50
     environment:
       MYSQL_DATABASE: ${DB_DATABASE:-gerenciador}
       MYSQL_USER: ${DB_USERNAME:-gerenciador}
@@ -73,6 +76,9 @@ services:
     image: phpmyadmin:5
     container_name: gerenciador_phpmyadmin
     restart: unless-stopped
+    profiles:
+      - tools
+    mem_limit: 128m
     environment:
       PMA_HOST: db
       PMA_USER: ${DB_USERNAME:-gerenciador}

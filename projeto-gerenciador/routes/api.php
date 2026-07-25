@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
-| Todas as rotas aqui ja recebem o prefixo /api (ver RouteServiceProvider).
+| Todas as rotas aqui ja recebem o prefixo /api (ver bootstrap/app.php).
 */
 
 // Health-check publico, usado por Docker/Kubernetes/monitoramento externo

@@ -19,7 +19,7 @@ git clone <seu-repo> ~/gerenciador
 cd ~/gerenciador/projeto-gerenciador
 cp .env.example .env   # ajustar DB_PASSWORD, APP_KEY etc.
 docker compose up -d --build
-php artisan key:generate   # se APP_KEY ainda não estiver setada
+docker compose exec app php artisan key:generate   # se APP_KEY ainda não estiver setada
 ```
 
 phpMyAdmin fica fora do `up -d` padrão (ver [docker-compose.yml](../docker-compose.yml)).

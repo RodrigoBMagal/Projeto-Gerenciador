@@ -1,9 +1,11 @@
-# .github/workflows/composer-lock.yml
 name: Gerar composer.lock
 on: workflow_dispatch
 jobs:
   update:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projeto-gerenciador
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -13,3 +15,4 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: atualiza composer.lock"
+          file_pattern: 'projeto-gerenciador/composer.lock'
